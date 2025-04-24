@@ -3,6 +3,8 @@ package algorithm_java;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class BOJ2178 {
@@ -24,6 +26,29 @@ public class BOJ2178 {
             String line = st.nextToken();
             for (int j=0; j<M; j++) {
                 A[i][j] = Integer.parseInt(line.substring(j, j+1));
+            }
+        }
+
+        BFS(0,0);
+        System.out.println(A[N-1][M-1]);
+    }
+
+    private static void BFS(int i, int j) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] {i,j});
+        visited[i][j] = true;
+        while (!queue.isEmpty()) {
+            int now[] = queue.poll();
+            for (int k=0; k<4; k++) {
+                int y = now[0] + dx[k];
+                int x = now[1] + dy[k];
+                if (y >= 0 && x >= 0 && y < N && x < M) {
+                    if (A[y][x] != 0 && !visited[y][x]) {
+                        visited[y][x] = true;
+                        A[y][x] = A[now[0]][now[1]] + 1;
+                        queue.add(new int[] {y,x});
+                    }
+                }
             }
         }
     }
